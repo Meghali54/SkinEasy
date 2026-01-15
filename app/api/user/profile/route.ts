@@ -40,21 +40,57 @@ export async function GET(request: NextRequest) {
     console.log("User found in DB:", user ? "Yes" : "No");
 
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 })
+      console.log("User not found, returning empty profile");
+      // Return default profile if user doesn't have one yet
+      return NextResponse.json({
+        user: {
+          name: session.user.name || "User",
+          email: session.user.email,
+          image: session.user.image || "/placeholder-user.jpg",
+          onboardingCompleted: false,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        profile: {
+          skinType: "Not specified",
+          concerns: [],
+          sensitivity: "Not specified",
+          location: "Not specified",
+          routine: []
+        },
+        stats: {
+          routineProgress: 0,
+          recentSkinScore: 0,
+          totalAnalyses: 0,
+          totalRoutines: 0
+        },
+        recentAnalyses: []
+      })
     }
 
-    // Get additional user data for profile
-    const skinAnalyses = await db.collection("skinAnalyses")
-      .find({ userId: user._id })
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .toArray()
+    // Get additional user data for profile - handle missing collections gracefully
+    let skinAnalyses: any[] = []
+    let routineCompletions: any[] = []
+    
+    try {
+      skinAnalyses = await db.collection("skinAnalyses")
+        .find({ userId: user._id })
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .toArray()
+    } catch (e) {
+      console.log("skinAnalyses collection not found or error accessing it");
+    }
 
-    const routineCompletions = await db.collection("routineCompletions")
-      .find({ userId: user._id })
-      .sort({ date: -1 })
-      .limit(7)
-      .toArray()
+    try {
+      routineCompletions = await db.collection("routineCompletions")
+        .find({ userId: user._id })
+        .sort({ date: -1 })
+        .limit(7)
+        .toArray()
+    } catch (e) {
+      console.log("routineCompletions collection not found or error accessing it");
+    }
 
     // Calculate routine progress
     const routineProgress = routineCompletions.length > 0
@@ -99,9 +135,31 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(profileData)
   } catch (error) {
     console.error("Profile API error:", error)
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    )
+    // Return a default empty profile instead of 500 error
+    return NextResponse.json({
+      user: {
+        name: "User",
+        email: "unknown@example.com",
+        image: "/placeholder-user.jpg",
+        onboardingCompleted: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      profile: {
+        skinType: "Not specified",
+        concerns: [],
+        sensitivity: "Not specified",
+        location: "Not specified",
+        routine: []
+      },
+      stats: {
+        routineProgress: 0,
+        recentSkinScore: 0,
+        totalAnalyses: 0,
+        totalRoutines: 0
+      },
+      recentAnalyses: [],
+      error: "Could not fetch profile, showing defaults"
+    })
   }
 }

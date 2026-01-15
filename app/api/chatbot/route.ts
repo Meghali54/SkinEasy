@@ -25,6 +25,18 @@ async function safeGenerate(model: any, options: any) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if API key is set
+    if (!process.env.GEMINI_API_KEY) {
+      console.error("GEMINI_API_KEY is not set");
+      return NextResponse.json(
+        { 
+          error: "API configuration error",
+          message: "The AI service is not properly configured. Please contact support."
+        },
+        { status: 500 }
+      )
+    }
+
     const { message, conversationHistory } = await request.json()
 
     if (!message) {
@@ -71,8 +83,8 @@ IMPORTANT: Always remind users you are an AI, not a doctor.`
     // Add new user message
     conversation.push({ role: "user", parts: [{ text: message }] })
 
-    // Use Gemini Flash model (cheaper + faster + higher quota)
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    // Use Gemini 1.5 Flash Latest model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" })
 
     // Generate response with retry logic
     const result = await safeGenerate(model, {
@@ -94,11 +106,14 @@ IMPORTANT: Always remind users you are an AI, not a doctor.`
     })
   } catch (error) {
     console.error("Chatbot API error:", error)
+    const errorMessage = error instanceof Error ? error.message : "Unknown error"
+    console.error("Error details:", errorMessage)
     return NextResponse.json(
       {
         error: "Failed to generate response",
         message:
           "I'm sorry, I'm having trouble responding right now. Please try again later.",
+        details: errorMessage
       },
       { status: 500 }
     )
