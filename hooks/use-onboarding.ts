@@ -35,11 +35,6 @@ export function useOnboarding() {
       if (response.ok) {
         const data = await response.json()
         setOnboardingCompleted(data.onboardingCompleted)
-        
-        if (!data.onboardingCompleted) {
-          // Immediately redirect to prevent flash
-          router.replace('/onboarding')
-        }
       }
     } catch (error) {
       console.error('Failed to check onboarding status:', error)

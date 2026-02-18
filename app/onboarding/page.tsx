@@ -131,15 +131,15 @@ function OnboardingContent() {
             <ChanseyMascot size="lg" />
             <CardTitle className="text-2xl font-bold text-gray-800">
               {step === 1 ? "Skin Profile Setup" :
-               step === 2 ? "Skin Concerns" :
-               step === 3 ? "Sensitivity Level" :
-               "Environment & Routine"}
+                step === 2 ? "Skin Concerns" :
+                  step === 3 ? "Sensitivity Level" :
+                    "Environment & Routine"}
             </CardTitle>
             <CardDescription>
               {step === 1 ? "What's your skin type?" :
-               step === 2 ? "What concerns do you want to address?" :
-               step === 3 ? "How sensitive is your skin?" :
-               "Tell us about your environment"}
+                step === 2 ? "What concerns do you want to address?" :
+                  step === 3 ? "How sensitive is your skin?" :
+                    "Tell us about your environment"}
             </CardDescription>
           </CardHeader>
 
@@ -173,7 +173,7 @@ function OnboardingContent() {
             {/* Step 2 */}
             {step === 2 && (
               <div className="space-y-3">
-                {["Acne","Aging","Dark Spots","Redness","Dryness","Oiliness"].map((c) => (
+                {["Acne", "Aging", "Dark Spots", "Redness", "Dryness", "Oiliness"].map((c) => (
                   <div key={c} className="flex items-center space-x-3">
                     <input
                       type="checkbox"
@@ -242,9 +242,19 @@ function OnboardingContent() {
 
             {/* Skip link */}
             <div className="mt-6 text-center text-sm">
-              <Link href="/dashboard" className="text-pink-600 hover:underline">
+              <button
+                onClick={async () => {
+                  await fetch("/api/onboarding/skip", {
+                    method: "POST",
+                  })
+                  router.push("/dashboard")
+                }}
+                className="text-pink-600 hover:underline"
+              >
                 Skip for now
-              </Link>
+              </button>
+
+
             </div>
           </CardContent>
         </Card>
