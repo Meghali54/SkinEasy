@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useMemo, useRef,useCallback } from "react"
+import { useState, useEffect, useMemo, useRef, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import { ArrowLeft, Calendar, Clock, MapPin, Star, CheckCircle, User, FileText }
 import Link from "next/link"
 import { ChanseyFAB } from "@/components/chansey-fab"
 import { ChanseyMascot } from "@/components/chansey-mascot"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { LocationInput } from "@/components/location-input"
 import { toast } from "sonner"
 import { LocationCoordinates } from "@/lib/geolocation"
@@ -253,7 +254,7 @@ export default function BookAppointmentPage() {
     // Check if we have either coordinates or manual address input
     const hasCoordinates = location.coordinates !== null
     const hasManualAddress = location.address && location.city && location.state
-    
+
     if (!hasCoordinates && !hasManualAddress) {
       toast.error("Please provide your location (either via GPS or manual address)")
       return
@@ -308,7 +309,7 @@ export default function BookAppointmentPage() {
       await response.json()
       toast.success("Appointment booked successfully!")
       setBookingComplete(true)
-      
+
       // Redirect to full-dashboard after a short delay to show the new appointment
       setTimeout(() => {
         window.location.href = '/full-dashboard'
@@ -326,44 +327,44 @@ export default function BookAppointmentPage() {
   // ---------------------------------------
   if (bookingComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center p-4">
-        <Card className="border-pink-100 shadow-xl bg-white/90 backdrop-blur-sm max-w-md w-full">
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-4 transition-colors duration-500">
+        <Card className="border-pink-100 dark:border-pink-900/30 shadow-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm max-w-md w-full">
           <CardContent className="text-center p-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-950/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Appointment Booked!</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-pink-100 mb-2">Appointment Booked!</h2>
 
             {selectedDoctorData && (
               <div className="flex items-center justify-center gap-3 mb-3">
-                <Avatar className="w-10 h-10 border-2 border-green-100 shadow">
+                <Avatar className="w-10 h-10 border-2 border-green-100 dark:border-green-900/50 shadow">
                   <AvatarImage src={selectedDoctorData.image || ""} />
                   <AvatarFallback className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-sm font-semibold">
                     {getInitials(selectedDoctorData.name)}
                   </AvatarFallback>
                 </Avatar>
-                <p className="text-gray-700">
-                  with <span className="font-semibold">{selectedDoctorData.name}</span>
+                <p className="text-gray-700 dark:text-slate-300">
+                  with <span className="font-semibold dark:text-pink-400">{selectedDoctorData.name}</span>
                 </p>
               </div>
             )}
 
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-slate-400 mb-6">
               Your appointment has been successfully scheduled.
             </p>
-            <div className="space-y-2 text-sm text-gray-600 mb-6">
+            <div className="space-y-2 text-sm text-gray-600 dark:text-slate-400 mb-6">
               <p>
-                <strong>Date:</strong> {selectedDate}
+                <strong className="dark:text-pink-200">Date:</strong> {selectedDate}
               </p>
               <p>
-                <strong>Time:</strong> {selectedTime}
+                <strong className="dark:text-pink-200">Time:</strong> {selectedTime}
               </p>
               <p>
-                <strong>Type:</strong> {appointmentType}
+                <strong className="dark:text-pink-200">Type:</strong> {appointmentType}
               </p>
               {location.address && (
                 <p>
-                  <strong>Location:</strong> {location.address}, {location.city}, {location.state} {location.zipCode}
+                  <strong className="dark:text-pink-200">Location:</strong> {location.address}, {location.city}, {location.state} {location.zipCode}
                 </p>
               )}
             </div>
@@ -376,7 +377,7 @@ export default function BookAppointmentPage() {
               </Button>
               <Button
                 variant="outline"
-                className="w-full border-pink-200 text-pink-700 hover:bg-pink-50 bg-transparent"
+                className="w-full border-pink-200 dark:border-pink-900/50 text-pink-700 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-slate-800 bg-transparent"
               >
                 Add to Calendar
               </Button>
@@ -391,9 +392,9 @@ export default function BookAppointmentPage() {
   // Main Screen
   // ---------------------------------------
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-500">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-100 sticky top-0 z-50">
+      <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-pink-100 dark:border-pink-900/30 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <Link
@@ -405,8 +406,11 @@ export default function BookAppointmentPage() {
             </Link>
             <div className="flex items-center gap-2">
               <ChanseyMascot size="sm" />
-              <h1 className="text-xl font-bold text-gray-800">Book Appointment</h1>
+              <h1 className="text-xl font-bold text-gray-800 dark:text-pink-100">Book Appointment</h1>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
           </div>
         </div>
       </header>
@@ -416,10 +420,10 @@ export default function BookAppointmentPage() {
           {/* Top: Title only */}
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center shadow-lg">
                 <Calendar className="w-6 h-6 text-white" />
               </div>
-              <h2 className="text-4xl font-bold text-gray-800">Schedule Your Consultation</h2>
+              <h2 className="text-4xl font-bold text-gray-800 dark:text-pink-100">Schedule Your Consultation</h2>
             </div>
           </div>
 
@@ -440,10 +444,10 @@ export default function BookAppointmentPage() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-8 text-sm text-gray-600">
-              <span className={(location.coordinates || (location.address && location.city && location.state)) ? 'text-green-600 font-medium' : ''}>Set Location</span>
-              <span className={selectedDoctor ? 'text-green-600 font-medium' : ''}>Choose Doctor</span>
-              <span className={selectedDate && selectedTime ? 'text-green-600 font-medium' : ''}>Book Time</span>
+            <div className="flex items-center justify-center gap-8 text-sm text-gray-600 dark:text-slate-400">
+              <span className={(location.coordinates || (location.address && location.city && location.state)) ? 'text-green-600 dark:text-green-400 font-medium' : ''}>Set Location</span>
+              <span className={selectedDoctor ? 'text-green-600 dark:text-green-400 font-medium' : ''}>Choose Doctor</span>
+              <span className={selectedDate && selectedTime ? 'text-green-600 dark:text-green-400 font-medium' : ''}>Book Time</span>
             </div>
           </div>
 
@@ -459,9 +463,9 @@ export default function BookAppointmentPage() {
 
             {(location.coordinates || (location.address && location.city && location.state)) && (
               <div className="mt-4 text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
-                  <CheckCircle className="w-4 h-4 text-green-600" />
-                  <span className="text-sm text-green-700 font-medium">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/30 rounded-full">
+                  <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <span className="text-sm text-green-700 dark:text-green-300 font-medium">
                     Location Set: {location.city}, {location.state}
                     {!location.coordinates && " (Manual Input)"}
                   </span>
@@ -473,16 +477,16 @@ export default function BookAppointmentPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Doctor Selection */}
             <div className="lg:col-span-2">
-              <Card className="border-pink-100 mb-6 shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-pink-50 to-rose-50 border-b border-pink-100">
+              <Card className="border-pink-100 dark:border-pink-900/30 mb-6 shadow-lg dark:bg-slate-900/50 glow-card">
+                <CardHeader className="bg-gradient-to-r from-pink-50 to-rose-50 dark:from-slate-900 dark:to-slate-800 border-b border-pink-100 dark:border-pink-900/30">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center shadow-md">
                         <User className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <CardTitle className="text-2xl text-gray-800">Choose Your Dermatologist</CardTitle>
-                        <CardDescription className="text-base">Select a nearby specialist</CardDescription>
+                        <CardTitle className="text-2xl text-gray-800 dark:text-pink-100">Choose Your Dermatologist</CardTitle>
+                        <CardDescription className="text-base dark:text-slate-300">Select a nearby specialist</CardDescription>
                       </div>
                     </div>
                     {(location.coordinates || (location.address && location.city && location.state)) && (
@@ -497,7 +501,7 @@ export default function BookAppointmentPage() {
                           }
                         }}
                         disabled={isLoadingDoctors}
-                        className="border-pink-200 text-pink-700 hover:bg-pink-50 shadow-sm"
+                        className="border-pink-200 dark:border-pink-900/50 text-pink-700 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-slate-800 shadow-sm transition-all"
                       >
                         Refresh
                       </Button>
@@ -517,11 +521,11 @@ export default function BookAppointmentPage() {
                     </div>
                   ) : !location.coordinates && !(location.address && location.city && location.state) ? (
                     <div className="text-center py-8">
-                      <p className="text-gray-500">Please provide your location above to find nearby dermatologists.</p>
+                      <p className="text-gray-500 dark:text-slate-400">Please provide your location above to find nearby dermatologists.</p>
                     </div>
                   ) : doctors.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-gray-500">No dermatologists found. Please try a different location.</p>
+                      <p className="text-gray-500 dark:text-slate-400">No dermatologists found. Please try a different location.</p>
                     </div>
                   ) : (
                     doctors.map((doctor) => {
@@ -529,11 +533,10 @@ export default function BookAppointmentPage() {
                       return (
                         <div
                           key={doctor.id}
-                          className={`p-6 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md ${
-                            selectedDoctor === doctor.id
-                              ? "border-pink-400 bg-gradient-to-r from-pink-50 to-rose-50 shadow-lg"
-                              : "border-pink-100 hover:border-pink-300"
-                          }`}
+                          className={`p-6 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md ${selectedDoctor === doctor.id
+                            ? "border-pink-400 bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-950/20 dark:to-rose-950/20 shadow-lg"
+                            : "border-pink-100 dark:border-pink-900/30 hover:border-pink-300 dark:hover:border-pink-800/50"
+                            }`}
                           onClick={() => setSelectedDoctor(doctor.id)}
                         >
                           <div className="flex items-start gap-4">
@@ -545,30 +548,30 @@ export default function BookAppointmentPage() {
                             </Avatar>
                             <div className="flex-1">
                               <div className="flex items-center gap-3 mb-1">
-                                <h3 className="text-xl font-bold text-gray-800">{doctor.name}</h3>
+                                <h3 className="text-xl font-bold text-gray-800 dark:text-pink-100">{doctor.name}</h3>
                               </div>
-                              <p className="text-base text-gray-600 mb-3">{doctor.specialty}</p>
+                              <p className="text-base text-gray-600 dark:text-slate-300 mb-3">{doctor.specialty}</p>
 
                               <div className="grid grid-cols-2 gap-4">
                                 <div className="flex items-center gap-2">
                                   <Star className="w-5 h-5 text-yellow-400 fill-current" />
                                   <div>
-                                    <div className="font-semibold text-gray-800">{doctor.rating}</div>
-                                    <div className="text-xs text-gray-500">{doctor.reviews} reviews</div>
+                                    <div className="font-semibold text-gray-800 dark:text-slate-100">{doctor.rating}</div>
+                                    <div className="text-xs text-gray-500 dark:text-slate-400">{doctor.reviews} reviews</div>
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <MapPin className="w-5 h-5 text-blue-500" />
+                                  <MapPin className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                                   <div>
-                                    <div className="font-semibold text-gray-800">{line1}</div>
-                                    <div className="text-xs text-gray-500">{line2}</div>
+                                    <div className="font-semibold text-gray-800 dark:text-slate-100">{line1}</div>
+                                    <div className="text-xs text-gray-500 dark:text-slate-400">{line2}</div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-2xl font-bold text-pink-600 mb-1">{doctor.price}</div>
-                              <div className="text-xs text-gray-500">Consultation Fee</div>
+                              <div className="text-2xl font-bold text-pink-600 dark:text-pink-400 mb-1">{doctor.price}</div>
+                              <div className="text-xs text-gray-500 dark:text-slate-400">Consultation Fee</div>
                             </div>
                           </div>
                         </div>
@@ -581,15 +584,15 @@ export default function BookAppointmentPage() {
 
             {/* RIGHT: Combined Date & Time + Booking Summary (stacked inside one sticky card) */}
             <div>
-              <Card className="border-pink-100 sticky top-24 shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-pink-50 to-rose-50 border-b border-pink-100">
+              <Card className="border-pink-100 dark:border-pink-900/30 sticky top-24 shadow-lg dark:bg-slate-900/50 glow-card">
+                <CardHeader className="bg-gradient-to-r from-pink-50 to-rose-50 dark:from-slate-900 dark:to-slate-800 border-b border-pink-100 dark:border-pink-900/30">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center">
                       <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-2xl text-gray-800">Select Date & Time</CardTitle>
-                      <CardDescription className="text-base">Choose your preferred appointment slot</CardDescription>
+                      <CardTitle className="text-2xl text-gray-800 dark:text-pink-100">Select Date & Time</CardTitle>
+                      <CardDescription className="text-base dark:text-slate-300">Choose your preferred appointment slot</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -599,20 +602,20 @@ export default function BookAppointmentPage() {
                     <>
                       <div className="grid md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="date">Preferred Date</Label>
+                          <Label htmlFor="date" className="dark:text-pink-100">Preferred Date</Label>
                           <Input
                             id="date"
                             type="date"
                             value={selectedDate}
                             onChange={(e) => setSelectedDate(e.target.value)}
                             min={new Date().toISOString().split("T")[0]}
-                            className="border-pink-200 focus:border-pink-400 focus:ring-pink-400"
+                            className="border-pink-200 dark:border-pink-900/50 focus:border-pink-400 focus:ring-pink-400 dark:bg-slate-900 dark:text-slate-100"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="appointment-type">Appointment Type</Label>
+                          <Label htmlFor="appointment-type" className="dark:text-pink-100">Appointment Type</Label>
                           <Select value={appointmentType} onValueChange={setAppointmentType}>
-                            <SelectTrigger className="border-pink-200 focus:border-pink-400 focus:ring-pink-400">
+                            <SelectTrigger className="border-pink-200 dark:border-pink-900/50 focus:border-pink-400 focus:ring-pink-400 dark:bg-slate-900 dark:text-slate-100">
                               <SelectValue placeholder="Select type" />
                             </SelectTrigger>
                             <SelectContent>
@@ -628,7 +631,7 @@ export default function BookAppointmentPage() {
 
                       {selectedDate && (
                         <div className="space-y-2">
-                          <Label>Available Time Slots</Label>
+                          <Label className="dark:text-pink-100">Available Time Slots</Label>
                           <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
                             {timeSlots.map((time) => (
                               <Button
@@ -638,8 +641,8 @@ export default function BookAppointmentPage() {
                                 onClick={() => setSelectedTime(time)}
                                 className={
                                   selectedTime === time
-                                    ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white"
-                                    : "border-pink-200 text-pink-700 hover:bg-pink-50 bg-transparent"
+                                    ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white border-transparent"
+                                    : "border-pink-200 dark:border-pink-900/50 text-pink-700 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-slate-800 bg-transparent"
                                 }
                               >
                                 {time}
@@ -649,32 +652,32 @@ export default function BookAppointmentPage() {
                         </div>
                       )}
 
-                      <div className="h-px bg-pink-100 my-2" />
+                      <div className="h-px bg-pink-100 dark:bg-pink-900/30 my-2" />
 
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center">
                           <FileText className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <h3 className="text-xl font-semibold text-gray-800">Booking Summary</h3>
-                          <p className="text-sm text-gray-600">Review your appointment details</p>
+                          <h3 className="text-xl font-semibold text-gray-800 dark:text-pink-100">Booking Summary</h3>
+                          <p className="text-sm text-gray-600 dark:text-slate-300">Review your appointment details</p>
                         </div>
                       </div>
 
                       <div className="space-y-4 pt-2">
                         <div className="space-y-3">
                           <div className="flex items-center gap-3">
-                            <Avatar className="w-8 h-8 border">
+                            <Avatar className="w-8 h-8 border dark:border-pink-900/30">
                               <AvatarImage src={selectedDoctorData?.image || ""} />
-                              <AvatarFallback className="bg-pink-100 text-pink-700 text-xs font-semibold">
+                              <AvatarFallback className="bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300 text-xs font-semibold">
                                 {getInitials(selectedDoctorData?.name)}
                               </AvatarFallback>
                             </Avatar>
                             <div>
-                              <p className="font-medium text-gray-800">
+                              <p className="font-medium text-gray-800 dark:text-pink-100">
                                 {selectedDoctorData?.name}
                               </p>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-gray-600 dark:text-slate-300">
                                 {selectedDoctorData?.specialty}
                               </p>
                             </div>
@@ -682,72 +685,72 @@ export default function BookAppointmentPage() {
 
                           {selectedDate && (
                             <div className="flex items-center gap-3">
-                              <Calendar className="w-4 h-4 text-pink-600" />
+                              <Calendar className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                               <div>
-                                <p className="font-medium text-gray-800">{selectedDate}</p>
-                                <p className="text-sm text-gray-600">Date</p>
+                                <p className="font-medium text-gray-800 dark:text-pink-100">{selectedDate}</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300">Date</p>
                               </div>
                             </div>
                           )}
 
                           {selectedTime && (
                             <div className="flex items-center gap-3">
-                              <Clock className="w-4 h-4 text-pink-600" />
+                              <Clock className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                               <div>
-                                <p className="font-medium text-gray-800">{selectedTime}</p>
-                                <p className="text-sm text-gray-600">Time</p>
+                                <p className="font-medium text-gray-800 dark:text-pink-100">{selectedTime}</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300">Time</p>
                               </div>
                             </div>
                           )}
 
                           {appointmentType && (
                             <div className="flex items-center gap-3">
-                              <FileText className="w-4 h-4 text-pink-600" />
+                              <FileText className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                               <div>
-                                <p className="font-medium text-gray-800 capitalize">{appointmentType.replace("-", " ")}</p>
-                                <p className="text-sm text-gray-600">Type</p>
+                                <p className="font-medium text-gray-800 dark:text-pink-100 capitalize">{appointmentType.replace("-", " ")}</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300">Type</p>
                               </div>
                             </div>
                           )}
 
                           {location.address && (
                             <div className="flex items-center gap-3">
-                              <MapPin className="w-4 h-4 text-pink-600" />
+                              <MapPin className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                               <div>
-                                <p className="font-medium text-gray-800">
+                                <p className="font-medium text-gray-800 dark:text-pink-100">
                                   {location.address}, {location.city}, {location.state} {location.zipCode}
                                 </p>
-                                <p className="text-sm text-gray-600">Location</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300">Location</p>
                               </div>
                             </div>
                           )}
                         </div>
 
-                        <div className="border-t border-pink-100 pt-4">
+                        <div className="border-t border-pink-100 dark:border-pink-900/30 pt-4">
                           <div className="flex justify-between items-center mb-4">
-                            <span className="font-medium text-gray-800">Total Cost:</span>
-                            <span className="text-xl font-bold text-pink-600">
+                            <span className="font-medium text-gray-800 dark:text-pink-100">Total Cost:</span>
+                            <span className="text-xl font-bold text-pink-600 dark:text-pink-400">
                               {selectedDoctorData?.price}
                             </span>
                           </div>
 
                           <div className="space-y-3">
                             <div className="space-y-2">
-                              <Label htmlFor="phone">Phone Number</Label>
+                              <Label htmlFor="phone" className="dark:text-pink-100">Phone Number</Label>
                               <Input
                                 id="phone"
                                 type="tel"
                                 placeholder="(555) 123-4567"
-                                className="border-pink-200 focus:border-pink-400 focus:ring-pink-400"
+                                className="border-pink-200 dark:border-pink-900/50 focus:border-pink-400 focus:ring-pink-400 dark:bg-slate-900 dark:text-slate-100"
                               />
                             </div>
 
                             <div className="space-y-2">
-                              <Label htmlFor="notes">Additional Notes (Optional)</Label>
+                              <Label htmlFor="notes" className="dark:text-pink-100">Additional Notes (Optional)</Label>
                               <Textarea
                                 id="notes"
                                 placeholder="Any specific concerns or questions..."
-                                className="border-pink-200 focus:border-pink-400 focus:ring-pink-400"
+                                className="border-pink-200 dark:border-pink-900/50 focus:border-pink-400 focus:ring-pink-400 dark:bg-slate-900 dark:text-slate-100"
                                 rows={3}
                               />
                             </div>
@@ -780,7 +783,7 @@ export default function BookAppointmentPage() {
                     </>
                   ) : (
                     <div className="text-center py-10">
-                      <p className="text-gray-500">Select a dermatologist to choose date & time and see the summary here.</p>
+                      <p className="text-gray-500 dark:text-slate-400">Select a dermatologist to choose date & time and see the summary here.</p>
                     </div>
                   )}
                 </CardContent>

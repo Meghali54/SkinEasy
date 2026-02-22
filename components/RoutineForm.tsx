@@ -82,25 +82,25 @@ export default function RoutineForm({ onSubmitAction, loading }: RoutineFormProp
   }
 
   return (
-    <Card className="border-pink-100 shadow-lg bg-white/90 backdrop-blur-sm">
+    <Card className="border-pink-100 dark:border-pink-900/30 shadow-lg bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm">
       <form onSubmit={handleSubmit}>
         <CardHeader>
-          <CardTitle className="text-xl text-gray-800">Generate Your Skincare Routine</CardTitle>
-          <CardDescription>Fill in your skin profile to get a personalized routine</CardDescription>
+          <CardTitle className="text-xl text-gray-800 dark:text-pink-100">Generate Your Skincare Routine</CardTitle>
+          <CardDescription className="dark:text-slate-400">Fill in your skin profile to get a personalized routine</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {error && <p className="text-xs text-red-600">{error}</p>}
-          {loadingProfile && <p className="text-xs text-gray-500">Loading profile...</p>}
+          {error && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
+          {loadingProfile && <p className="text-xs text-gray-500 dark:text-slate-500">Loading profile...</p>}
 
           {/* Skin Type */}
           <div>
-            <Label>Skin Type</Label>
+            <Label className="dark:text-pink-100">Skin Type</Label>
             <RadioGroup value={skinType} onValueChange={setSkinType} className="grid grid-cols-2 gap-3 mt-2">
               {["Dry", "Oily", "Combination", "Normal", "Sensitive"].map((type) => (
                 <div key={type} className="flex items-center space-x-2">
-                  <RadioGroupItem value={type.toLowerCase()} id={type.toLowerCase()} />
-                  <Label htmlFor={type.toLowerCase()}>{type}</Label>
+                  <RadioGroupItem value={type.toLowerCase()} id={type.toLowerCase()} className="dark:border-pink-900/50" />
+                  <Label htmlFor={type.toLowerCase()} className="dark:text-slate-300">{type}</Label>
                 </div>
               ))}
             </RadioGroup>
@@ -108,19 +108,19 @@ export default function RoutineForm({ onSubmitAction, loading }: RoutineFormProp
 
           {/* Sensitivity Score */}
           <div>
-            <Label>Sensitivity Score: {score}/100</Label>
-            <Slider value={[score]} onValueChange={(val) => setScore(val[0])} max={100} step={1} />
+            <Label className="dark:text-pink-100">Sensitivity Score: {score}/100</Label>
+            <Slider value={[score]} onValueChange={(val) => setScore(val[0])} max={100} step={1} className="dark:bg-slate-800" />
           </div>
 
           {/* Climate */}
           <div>
-            <Label>Climate</Label>
-            <Input placeholder="e.g. Humid, Dry, Cold" value={climate} onChange={(e) => setClimate(e.target.value)} />
+            <Label className="dark:text-pink-100">Climate</Label>
+            <Input placeholder="e.g. Humid, Dry, Cold" value={climate} onChange={(e) => setClimate(e.target.value)} className="dark:bg-slate-900 dark:border-pink-900/30" />
           </div>
 
           {/* Skin Concerns */}
           <div>
-            <Label>Skin Concerns</Label>
+            <Label className="dark:text-pink-100">Skin Concerns</Label>
             <div className="grid grid-cols-2 gap-2 mt-1">
               {concernOptions.map((c) => (
                 <div key={c} className="flex items-center space-x-2">
@@ -134,8 +134,9 @@ export default function RoutineForm({ onSubmitAction, loading }: RoutineFormProp
                         : skinConcerns.filter((x) => x !== c.toLowerCase());
                       setSkinConcerns(newConcerns);
                     }}
+                    className="dark:bg-slate-900 dark:border-pink-900/50"
                   />
-                  <Label htmlFor={c.toLowerCase()}>{c}</Label>
+                  <Label htmlFor={c.toLowerCase()} className="dark:text-slate-300">{c}</Label>
                 </div>
               ))}
             </div>
@@ -143,17 +144,17 @@ export default function RoutineForm({ onSubmitAction, loading }: RoutineFormProp
 
           {/* Steps */}
           <div>
-            <Label>Number of Steps</Label>
-            <Input type="number" value={steps} onChange={(e) => setSteps(Number(e.target.value))} />
+            <Label className="dark:text-pink-100">Number of Steps</Label>
+            <Input type="number" value={steps} onChange={(e) => setSteps(Number(e.target.value))} className="dark:bg-slate-900 dark:border-pink-900/30" />
           </div>
 
           {/* Times per day */}
           <div>
-            <Label>Times per Day</Label>
-            <Input type="number" value={times} onChange={(e) => setTimes(Number(e.target.value))} />
+            <Label className="dark:text-pink-100">Times per Day</Label>
+            <Input type="number" value={times} onChange={(e) => setTimes(Number(e.target.value))} className="dark:bg-slate-900 dark:border-pink-900/30" />
           </div>
 
-          <Button type="submit" disabled={loading || loadingProfile} className="w-full bg-pink-100 hover:bg-pink-200 text-pink-700 mt-4">
+          <Button type="submit" disabled={loading || loadingProfile} className="w-full bg-pink-100 dark:bg-pink-950/40 hover:bg-pink-200 dark:hover:bg-pink-900/40 text-pink-700 dark:text-pink-400 mt-4 border dark:border-pink-900/30">
             {loading ? "Generating..." : "Generate Routine"}
           </Button>
         </CardContent>
