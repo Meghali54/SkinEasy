@@ -19,6 +19,7 @@ import { ChanseyMascot } from "@/components/chansey-mascot"
 import { useSession } from "next-auth/react"
 import LogoutButton from "@/components/auth/logout-button"
 import { ProfileDropdown } from "@/components/profile"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 import { useOnboarding } from "@/hooks/use-onboarding"
 
@@ -40,23 +41,24 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-100 sticky top-0 z-50">
+      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-pink-100 dark:border-gray-700 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <ChanseyMascot size="sm" />
-              <h1 className="text-xl font-bold text-gray-800">Skinsey</h1>
+              <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">Skinsey</h1>
             </Link>
 
             {/* User Menu */}
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-600">
+              <ThemeToggle />
+              <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-600 dark:text-gray-300 dark:hover:text-pink-400">
                 <Bell className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-600">
+              <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-600 dark:text-gray-300 dark:hover:text-pink-400">
                 <Settings className="w-5 h-5" />
               </Button>
               
@@ -72,10 +74,10 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
+          <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
             Welcome back, {session?.user?.name?.split(" ")[0] || "User"}! 👋
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Your personalized skin health companion is ready to help you on your wellness journey.
           </p>
         </div>
@@ -83,13 +85,13 @@ export default function DashboardPage() {
         {/* Main Cards Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Dashboard Card */}
-          <Card className="border-pink-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90">
+          <Card className="border-pink-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90 dark:bg-gray-800/90">
             <CardHeader className="text-center pb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="w-8 h-8 text-pink-600" />
               </div>
-              <CardTitle className="text-2xl text-gray-800">Dashboard</CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardTitle className="text-2xl text-gray-800 dark:text-gray-100">Dashboard</CardTitle>
+              <CardDescription className="text-gray-600 dark:text-gray-300">
                 View your complete skin health overview, progress tracking, and detailed analytics
               </CardDescription>
             </CardHeader>
@@ -110,20 +112,20 @@ export default function DashboardPage() {
           </Card>
 
           {/* Skin Analyzer Card */}
-          <Card className="border-pink-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90">
+          <Card className="border-pink-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90 dark:bg-gray-800/90">
             <CardHeader className="text-center pb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Camera className="w-8 h-8 text-pink-600" />
               </div>
-              <CardTitle className="text-2xl text-gray-800">Skin Analyzer</CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardTitle className="text-2xl text-gray-800 dark:text-gray-100">Skin Analyzer</CardTitle>
+              <CardDescription className="text-gray-600 dark:text-gray-300">
                 AI-powered skin analysis using your photos to identify concerns and get recommendations
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <div className="mb-4 p-3 bg-pink-50 rounded-lg">
-                <p className="text-sm text-gray-600">Last analysis: 2 hours ago</p>
-                <p className="text-xs text-gray-500">Results: Mild improvement detected</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Last analysis: 2 hours ago</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Results: Mild improvement detected</p>
               </div>
               <Button
                 className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full py-3 font-semibold shadow-lg"
@@ -138,20 +140,20 @@ export default function DashboardPage() {
           </Card>
 
           {/* AI Chatbot Card */}
-          <Card className="border-pink-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90">
+          <Card className="border-pink-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90 dark:bg-gray-800/90">
             <CardHeader className="text-center pb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Bot className="w-8 h-8 text-pink-600" />
               </div>
-              <CardTitle className="text-2xl text-gray-800">Chansey AI</CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardTitle className="text-2xl text-gray-800 dark:text-gray-100">Chansey AI</CardTitle>
+              <CardDescription className="text-gray-600 dark:text-gray-300">
                 Chat with Chansey AI, your friendly dermatology assistant for personalized skincare advice
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <div className="mb-4 p-3 bg-pink-50 rounded-lg">
-                <p className="text-sm text-gray-600">💬 &ldquo;Ask me about skincare routines!&rdquo;</p>
-                <p className="text-xs text-gray-500">Available 24/7</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">💬 &ldquo;Ask me about skincare routines!&rdquo;</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Available 24/7</p>
               </div>
               <Button
                 className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full py-3 font-semibold shadow-lg"
@@ -166,20 +168,20 @@ export default function DashboardPage() {
           </Card>
 
           {/* Book Appointment Card */}
-          <Card className="border-pink-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90">
+          <Card className="border-pink-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white/90 dark:bg-gray-800/90">
             <CardHeader className="text-center pb-4">
               <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Stethoscope className="w-8 h-8 text-pink-600" />
               </div>
-              <CardTitle className="text-2xl text-gray-800">Book Appointment</CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardTitle className="text-2xl text-gray-800 dark:text-gray-100">Book Appointment</CardTitle>
+              <CardDescription className="text-gray-600 dark:text-gray-300">
                 Schedule consultations with certified dermatologists and skin care specialists
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <div className="mb-4 p-3 bg-pink-50 rounded-lg">
-              <p className="text-sm text-gray-600">“Healthy skin is a reflection of overall wellness.”</p>
-              <p className="text-xs text-gray-500">— Dermatology Wisdom</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">“Healthy skin is a reflection of overall wellness.”</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">— Dermatology Wisdom</p>
               </div>
               <Button
                 className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-full py-3 font-semibold shadow-lg"
