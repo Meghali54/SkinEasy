@@ -10,6 +10,7 @@ import { Camera, Upload, ArrowLeft, CheckCircle, AlertTriangle, Info, Download, 
 import Link from "next/link"
 import { ChanseyFAB } from "@/components/chansey-fab"
 import { ChanseyMascot } from "@/components/chansey-mascot"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 interface SkinCondition {
   name: string;
@@ -79,7 +80,7 @@ export default function AnalyzeSkinPage() {
 
   const handleAnalyze = async () => {
     if (!uploadedFile) return
-    
+
     setIsAnalyzing(true)
     setAnalysisComplete(false)
     setError(null)
@@ -108,7 +109,7 @@ export default function AnalyzeSkinPage() {
       }
 
       const data = await res.json()
-      
+
       // Use structured data if available, fallback to raw analysis
       if (data.conditions && data.recommendations) {
         setConditions(data.conditions)
@@ -136,9 +137,9 @@ export default function AnalyzeSkinPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-500">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-pink-100 sticky top-0 z-50">
+      <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-pink-100 dark:border-pink-900/30 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <Link
@@ -150,8 +151,11 @@ export default function AnalyzeSkinPage() {
             </Link>
             <div className="flex items-center gap-2">
               <ChanseyMascot size="sm" />
-              <h1 className="text-xl font-bold text-gray-800">Skinsey - Skin Analyzer</h1>
+              <h1 className="text-xl font-bold text-gray-800 dark:text-pink-100">Skinsey - Skin Analyzer</h1>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
           </div>
         </div>
       </header>
@@ -159,8 +163,8 @@ export default function AnalyzeSkinPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">AI-Powered Skin Analysis</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-pink-100 mb-4">AI-Powered Skin Analysis</h2>
+            <p className="text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
               Upload a clear photo of your skin concern and get instant AI-powered analysis with personalized
               recommendations.
             </p>
@@ -177,17 +181,17 @@ export default function AnalyzeSkinPage() {
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Upload Section */}
-            <Card className="border-pink-100">
+            <Card className="border-pink-100 dark:border-pink-900/30 dark:bg-slate-900/50 glow-card">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl text-gray-800">
-                  <Camera className="w-5 h-5 text-pink-600" />
+                <CardTitle className="flex items-center gap-2 text-xl text-gray-800 dark:text-pink-100">
+                  <Camera className="w-5 h-5 text-pink-600 dark:text-pink-400" />
                   Upload Skin Image
                 </CardTitle>
-                <CardDescription>Take a clear, well-lit photo of the area you&apos;d like to analyze</CardDescription>
+                <CardDescription className="dark:text-slate-300">Take a clear, well-lit photo of the area you&apos;d like to analyze</CardDescription>
               </CardHeader>
               <CardContent>
                 <div
-                  className="border-2 border-dashed border-pink-200 rounded-lg p-8 text-center bg-pink-50/50 hover:bg-pink-50 transition-colors cursor-pointer"
+                  className="border-2 border-dashed border-pink-200 dark:border-pink-900/50 rounded-lg p-8 text-center bg-pink-50/50 dark:bg-slate-800/50 hover:bg-pink-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                   onDragOver={handleDragOver}
                   onDrop={handleDrop}
                   onClick={() => fileInputRef.current?.click()}
@@ -207,8 +211,8 @@ export default function AnalyzeSkinPage() {
                     <div className="space-y-4">
                       <Upload className="w-12 h-12 text-pink-400 mx-auto" />
                       <div>
-                        <p className="text-lg font-medium text-gray-700 mb-2">Upload Skin Image</p>
-                        <p className="text-sm text-gray-500">Drag & drop or click to select (Max 5MB)</p>
+                        <p className="text-lg font-medium text-gray-700 dark:text-pink-100 mb-2">Upload Skin Image</p>
+                        <p className="text-sm text-gray-500 dark:text-slate-400">Drag & drop or click to select (Max 5MB)</p>
                       </div>
                     </div>
                   )}
@@ -265,13 +269,13 @@ export default function AnalyzeSkinPage() {
             </Card>
 
             {/* Results Section */}
-            <Card className="border-pink-100">
+            <Card className="border-pink-100 dark:border-pink-900/30 dark:bg-slate-900/50 glow-card">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl text-gray-800">
-                  <Info className="w-5 h-5 text-pink-600" />
+                <CardTitle className="flex items-center gap-2 text-xl text-gray-800 dark:text-pink-100">
+                  <Info className="w-5 h-5 text-pink-600 dark:text-pink-400" />
                   Analysis Results
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="dark:text-slate-300">
                   {analysisComplete ? "AI analysis completed" : "Results will appear here after analysis"}
                 </CardDescription>
               </CardHeader>
@@ -280,32 +284,30 @@ export default function AnalyzeSkinPage() {
                   <div className="space-y-6">
                     {/* Condition Detection */}
                     <div className="space-y-3">
-                      <h3 className="font-semibold text-gray-800">Detected Conditions</h3>
+                      <h3 className="font-semibold text-gray-800 dark:text-pink-200">Detected Conditions</h3>
                       {conditions.length > 0 ? (
                         <div className="space-y-2">
                           {conditions.map((cond, i) => (
                             <div
                               key={i}
-                              className={`flex items-center justify-between p-3 ${
-                                cond.confidence >= 70
-                                  ? "bg-green-50 border border-green-200"
-                                  : "bg-yellow-50 border border-yellow-200"
-                              } rounded-lg`}
+                              className={`flex items-center justify-between p-3 ${cond.confidence >= 70
+                                ? "bg-green-50 border border-green-200"
+                                : "bg-yellow-50 border border-yellow-200"
+                                } rounded-lg`}
                             >
                               <div className="flex items-center gap-2">
                                 {cond.confidence >= 70 ? (
-                                  <CheckCircle className="w-4 h-4 text-green-600" />
+                                  <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
                                 ) : (
-                                  <AlertTriangle className="w-4 h-4 text-yellow-600" />
+                                  <AlertTriangle className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
                                 )}
-                                <span className="text-sm font-medium text-gray-800">{cond.name}</span>
+                                <span className="text-sm font-medium text-gray-800 dark:text-slate-100">{cond.name}</span>
                               </div>
                               <Badge
-                                className={`${
-                                  cond.confidence >= 70
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
-                                } hover:bg-opacity-80`}
+                                className={`${cond.confidence >= 70
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-yellow-100 text-yellow-700"
+                                  } hover:bg-opacity-80`}
                               >
                                 {cond.confidence}% Confidence
                               </Badge>
@@ -319,9 +321,9 @@ export default function AnalyzeSkinPage() {
 
                     {/* Recommendations */}
                     <div className="space-y-3">
-                      <h3 className="font-semibold text-gray-800">Recommendations</h3>
+                      <h3 className="font-semibold text-gray-800 dark:text-pink-200">Recommendations</h3>
                       {recommendations.length > 0 ? (
-                        <div className="space-y-2 text-sm text-gray-600">
+                        <div className="space-y-2 text-sm text-gray-600 dark:text-slate-300">
                           {recommendations.map((rec, i) => (
                             <div key={i} className="flex items-start gap-2">
                               <div className="w-1.5 h-1.5 bg-pink-400 rounded-full mt-2"></div>
@@ -338,14 +340,14 @@ export default function AnalyzeSkinPage() {
                     <div className="flex gap-3">
                       <Button
                         variant="outline"
-                        className="flex-1 border-pink-200 text-pink-700 hover:bg-pink-50 bg-transparent"
+                        className="flex-1 border-pink-200 dark:border-pink-900/50 text-pink-700 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20 bg-transparent"
                       >
                         <Download className="w-4 h-4 mr-2" />
                         Save Report
                       </Button>
                       <Button
                         variant="outline"
-                        className="flex-1 border-pink-200 text-pink-700 hover:bg-pink-50 bg-transparent"
+                        className="flex-1 border-pink-200 dark:border-pink-900/50 text-pink-700 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20 bg-transparent"
                       >
                         <Share className="w-4 h-4 mr-2" />
                         Share Results
@@ -362,7 +364,7 @@ export default function AnalyzeSkinPage() {
                 ) : (
                   <div className="text-center py-12">
                     <Camera className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">
+                    <p className="text-gray-500 dark:text-slate-400">
                       {isAnalyzing ? "Analyzing your image..." : "Upload an image to see analysis results"}
                     </p>
                   </div>
@@ -372,32 +374,32 @@ export default function AnalyzeSkinPage() {
           </div>
 
           {/* Tips Section */}
-          <Card className="border-pink-100 mt-8">
+          <Card className="border-pink-100 dark:border-pink-900/30 dark:bg-slate-900/50 mt-8 glow-card">
             <CardHeader>
-              <CardTitle className="text-xl text-gray-800">Photography Tips for Best Results</CardTitle>
+              <CardTitle className="text-xl text-gray-800 dark:text-pink-100">Photography Tips for Best Results</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-3 gap-4 text-sm">
-                <div className="text-center p-4 bg-pink-50 rounded-lg">
+                <div className="text-center p-4 bg-pink-50 dark:bg-slate-800/50 rounded-lg">
                   <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Camera className="w-6 h-6 text-pink-600" />
                   </div>
-                  <h3 className="font-medium text-gray-800 mb-1">Good Lighting</h3>
-                  <p className="text-gray-600">Use natural light or bright indoor lighting</p>
+                  <h3 className="font-medium text-gray-800 dark:text-pink-200 mb-1">Good Lighting</h3>
+                  <p className="text-gray-600 dark:text-slate-400">Use natural light or bright indoor lighting</p>
                 </div>
-                <div className="text-center p-4 bg-pink-50 rounded-lg">
+                <div className="text-center p-4 bg-pink-50 dark:bg-slate-800/50 rounded-lg">
                   <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center mx-auto mb-2">
                     <CheckCircle className="w-6 h-6 text-pink-600" />
                   </div>
-                  <h3 className="font-medium text-gray-800 mb-1">Clear Focus</h3>
-                  <p className="text-gray-600">Ensure the image is sharp and in focus</p>
+                  <h3 className="font-medium text-gray-800 dark:text-pink-200 mb-1">Clear Focus</h3>
+                  <p className="text-gray-600 dark:text-slate-400">Ensure the image is sharp and in focus</p>
                 </div>
-                <div className="text-center p-4 bg-pink-50 rounded-lg">
+                <div className="text-center p-4 bg-pink-50 dark:bg-slate-800/50 rounded-lg">
                   <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Info className="w-6 h-6 text-pink-600" />
                   </div>
-                  <h3 className="font-medium text-gray-800 mb-1">Close Distance</h3>
-                  <p className="text-gray-600">Take the photo close enough to see details</p>
+                  <h3 className="font-medium text-gray-800 dark:text-pink-200 mb-1">Close Distance</h3>
+                  <p className="text-gray-600 dark:text-slate-400">Take the photo close enough to see details</p>
                 </div>
               </div>
             </CardContent>

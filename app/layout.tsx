@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 import AuthProvider from '@/components/providers/session-provider'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
@@ -29,10 +30,12 @@ html {
         `}</style>
       </head>
       <body suppressHydrationWarning={true} className="antialiased">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )

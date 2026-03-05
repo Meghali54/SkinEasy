@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Slider } from "@/components/ui/slider"
 import { ChanseyMascot } from "@/components/chansey-mascot"
+import { ThemeToggle } from "@/components/theme-toggle"
 import Link from "next/link"
 import { toast } from "sonner"
 
@@ -124,18 +125,21 @@ function OnboardingContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 via-white to-rose-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 p-4 transition-colors duration-500">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md">
-        <Card className="border-pink-100 shadow-xl bg-white/90 backdrop-blur-sm">
+        <Card className="border-pink-100 dark:border-pink-900/30 shadow-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm glow-card">
           <CardHeader className="text-center pb-6">
             <ChanseyMascot size="lg" />
-            <CardTitle className="text-2xl font-bold text-gray-800">
+            <CardTitle className="text-2xl font-bold text-gray-800 dark:text-pink-100">
               {step === 1 ? "Skin Profile Setup" :
                 step === 2 ? "Skin Concerns" :
                   step === 3 ? "Sensitivity Level" :
                     "Environment & Routine"}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="dark:text-slate-400">
               {step === 1 ? "What's your skin type?" :
                 step === 2 ? "What concerns do you want to address?" :
                   step === 3 ? "How sensitive is your skin?" :
@@ -162,8 +166,8 @@ function OnboardingContent() {
                 >
                   {["Dry", "Oily", "Combination", "Normal", "Sensitive"].map((type) => (
                     <div key={type} className="flex items-center space-x-3">
-                      <RadioGroupItem value={type.toLowerCase()} id={type.toLowerCase()} />
-                      <Label htmlFor={type.toLowerCase()}>{type}</Label>
+                      <RadioGroupItem value={type.toLowerCase()} id={type.toLowerCase()} className="border-pink-300 dark:border-pink-900/50" />
+                      <Label htmlFor={type.toLowerCase()} className="dark:text-slate-300">{type}</Label>
                     </div>
                   ))}
                 </RadioGroup>
@@ -195,7 +199,7 @@ function OnboardingContent() {
             {/* Step 3 */}
             {step === 3 && (
               <div>
-                <Label>Sensitivity: {userData.sensitivity}/100</Label>
+                <Label className="dark:text-slate-300">Sensitivity: {userData.sensitivity}/100</Label>
                 <Slider
                   value={[userData.sensitivity]}
                   onValueChange={(val) => setUserData({ ...userData, sensitivity: val[0] })}
@@ -212,12 +216,13 @@ function OnboardingContent() {
                   placeholder="Your Climate (e.g. Humid, Dry, Cold)"
                   value={userData.location}
                   onChange={(e) => setUserData({ ...userData, location: e.target.value })}
+                  className="border-pink-200 dark:border-pink-900/50 bg-white dark:bg-slate-900"
                 />
                 <textarea
                   placeholder="Your skincare routine (optional)"
                   value={userData.routine}
                   onChange={(e) => setUserData({ ...userData, routine: e.target.value })}
-                  className="w-full border rounded-md p-2"
+                  className="w-full border border-pink-200 dark:border-pink-900/50 rounded-md p-2 bg-white dark:bg-slate-900 dark:text-slate-100"
                 />
               </div>
             )}
@@ -249,7 +254,7 @@ function OnboardingContent() {
                   })
                   router.push("/dashboard")
                 }}
-                className="text-pink-600 hover:underline"
+                className="text-pink-600 dark:text-pink-400 hover:underline"
               >
                 Skip for now
               </button>

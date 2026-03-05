@@ -13,6 +13,7 @@ import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -22,7 +23,7 @@ export default function LoginPage() {
     password: ""
   })
   const router = useRouter()
-  
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,24 +50,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center p-4 transition-colors duration-500">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md">
         {/* Back to Home */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
 
-        <Card className="border-pink-100 shadow-xl bg-white/90 backdrop-blur-sm">
+        <Card className="border-pink-100 dark:border-pink-900/30 shadow-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm glow-card">
           <CardHeader className="text-center pb-6">
             <div className="flex justify-center mb-4">
               <ChanseyMascot size="lg" />
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-800">Welcome Back</CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardTitle className="text-2xl font-bold text-gray-800 dark:text-pink-100">Welcome Back</CardTitle>
+            <CardDescription className="text-gray-600 dark:text-slate-400">
               Sign in to continue your skin health journey with Chansey AI
             </CardDescription>
           </CardHeader>
@@ -114,12 +118,12 @@ export default function LoginPage() {
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="remember" className="border-pink-300 data-[state=checked]:bg-pink-500" />
-                  <Label htmlFor="remember" className="text-sm text-gray-600">
+                  <Checkbox id="remember" className="border-pink-300 dark:border-pink-900/50 data-[state=checked]:bg-pink-500" />
+                  <Label htmlFor="remember" className="text-sm text-gray-600 dark:text-slate-400">
                     Remember me
                   </Label>
                 </div>
-                <Link href="#" className="text-sm text-pink-600 hover:text-pink-700">
+                <Link href="#" className="text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300">
                   Forgot password?
                 </Link>
               </div>
@@ -134,12 +138,12 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-6 text-center">
-                              <p className="text-gray-600">
-                  Don&apos;t have an account?{" "}
-                  <Link href="/signup" className="text-pink-600 hover:text-pink-700 font-semibold">
-                    Sign up
-                  </Link>
-                </p>
+              <p className="text-gray-600 dark:text-slate-400">
+                Don&apos;t have an account?{" "}
+                <Link href="/signup" className="text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300 font-semibold">
+                  Sign up
+                </Link>
+              </p>
             </div>
           </CardContent>
         </Card>

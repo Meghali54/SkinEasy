@@ -110,7 +110,7 @@ export default function RoutineTab({ initialRoutine, onProgressChangeAction }: R
     const datesSet = new Set<string>(completions.filter(c => c.completed).map(c => c.date));
     let count = 0;
     const d = new Date();
-    for (;;) {
+    for (; ;) {
       const key = d.toISOString().split("T")[0];
       if (datesSet.has(key)) {
         count += 1;
@@ -321,7 +321,7 @@ export default function RoutineTab({ initialRoutine, onProgressChangeAction }: R
             }));
             setCompletions(list);
           }
-        } catch {}
+        } catch { }
       } else {
         const err = await res.json().catch(() => ({}));
         alert(err.error || "Failed to save completion");
@@ -410,29 +410,29 @@ export default function RoutineTab({ initialRoutine, onProgressChangeAction }: R
         <RoutineForm onSubmitAction={generateRoutine} loading={loading} />
       ) : (
         <>
-<div className="flex flex-col items-center space-y-4">
-  {/* Clock + Streak */}
-  <div className="flex justify-between items-center w-full px-4 py-2">
-  <Clock />
-  <div className="flex items-center gap-3">
-    <span className="text-sm text-gray-600 font-medium">⏳ Reset in: {timeLeft || "--:--:--"}</span>
-    <span className="text-sm text-gray-600 font-medium">🔥 Streak: {streak} days</span>
-  </div>
-</div>
+          <div className="flex flex-col items-center space-y-4">
+            {/* Clock + Streak */}
+            <div className="flex justify-between items-center w-full px-4 py-2">
+              <Clock />
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-600 dark:text-slate-400 font-medium">⏳ Reset in: {timeLeft || "--:--:--"}</span>
+                <span className="text-sm text-gray-600 dark:text-slate-400 font-medium">🔥 Streak: {streak} days</span>
+              </div>
+            </div>
 
-        </div>
+          </div>
 
 
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Morning Routine */}
-            <Card className="border-green-100">
+            <Card className="border-green-100 dark:border-green-900/30 dark:bg-slate-900/50">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-800">🌞 Morning Routine</CardTitle>
+                <CardTitle className="text-xl text-gray-800 dark:text-pink-100">🌞 Morning Routine</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-2 mb-3">
-                  <Input placeholder="Add morning step" value={newMorningStep} onChange={(e) => setNewMorningStep(e.target.value)} />
-                  <Button variant="outline" onClick={addMorning}>Add</Button>
+                  <Input placeholder="Add morning step" value={newMorningStep} onChange={(e) => setNewMorningStep(e.target.value)} className="dark:bg-slate-900 dark:border-pink-900/30" />
+                  <Button variant="outline" onClick={addMorning} className="dark:border-pink-900/50 dark:text-pink-400">Add</Button>
                 </div>
                 <ul className="space-y-2">
                   {morningRoutine.length ? (
@@ -440,30 +440,30 @@ export default function RoutineTab({ initialRoutine, onProgressChangeAction }: R
                       <li key={index} className="flex items-start gap-2">
                         <input
                           type="checkbox"
-                          className="mt-1"
-                          checked={morningCompleted.has(index)}
+                          className="mt-1 dark:bg-slate-900 dark:border-pink-900/50"
+                          checked={morningCompleted.size > 0 && Array.from(morningCompleted).includes(index)}
                           onChange={() => toggleMorningCompleted(index)}
                         />
-                        <span className="flex-1">{step}</span>
-                        <Button variant="ghost" size="sm" onClick={() => removeMorning(index)}>Remove</Button>
+                        <span className="flex-1 dark:text-slate-300">{step}</span>
+                        <Button variant="ghost" size="sm" onClick={() => removeMorning(index)} className="dark:text-red-400 dark:hover:text-red-300">Remove</Button>
                       </li>
                     ))
                   ) : (
-                    <p className="text-gray-500">No morning routine generated yet.</p>
+                    <p className="text-gray-500 dark:text-slate-500">No morning routine generated yet.</p>
                   )}
                 </ul>
               </CardContent>
             </Card>
 
             {/* Evening Routine */}
-            <Card className="border-purple-100">
+            <Card className="border-purple-100 dark:border-purple-900/30 dark:bg-slate-900/50">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-800">🌙 Evening Routine</CardTitle>
+                <CardTitle className="text-xl text-gray-800 dark:text-pink-100">🌙 Evening Routine</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-2 mb-3">
-                  <Input placeholder="Add evening step" value={newEveningStep} onChange={(e) => setNewEveningStep(e.target.value)} />
-                  <Button variant="outline" onClick={addEvening}>Add</Button>
+                  <Input placeholder="Add evening step" value={newEveningStep} onChange={(e) => setNewEveningStep(e.target.value)} className="dark:bg-slate-900 dark:border-pink-900/30" />
+                  <Button variant="outline" onClick={addEvening} className="dark:border-pink-900/50 dark:text-pink-400">Add</Button>
                 </div>
                 <ul className="space-y-2">
                   {eveningRoutine.length ? (
@@ -471,16 +471,16 @@ export default function RoutineTab({ initialRoutine, onProgressChangeAction }: R
                       <li key={index} className="flex items-start gap-2">
                         <input
                           type="checkbox"
-                          className="mt-1"
-                          checked={eveningCompleted.has(index)}
+                          className="mt-1 dark:bg-slate-900 dark:border-pink-900/50"
+                          checked={eveningCompleted.size > 0 && Array.from(eveningCompleted).includes(index)}
                           onChange={() => toggleEveningCompleted(index)}
                         />
-                        <span className="flex-1">{step}</span>
-                        <Button variant="ghost" size="sm" onClick={() => removeEvening(index)}>Remove</Button>
+                        <span className="flex-1 dark:text-slate-300">{step}</span>
+                        <Button variant="ghost" size="sm" onClick={() => removeEvening(index)} className="dark:text-red-400 dark:hover:text-red-300">Remove</Button>
                       </li>
                     ))
                   ) : (
-                    <p className="text-gray-500">No evening routine generated yet.</p>
+                    <p className="text-gray-500 dark:text-slate-500">No evening routine generated yet.</p>
                   )}
                 </ul>
               </CardContent>
@@ -488,12 +488,12 @@ export default function RoutineTab({ initialRoutine, onProgressChangeAction }: R
           </div>
 
           {motivationalNote && (
-            <Card className="col-span-2 border-yellow-100 bg-yellow-50">
+            <Card className="col-span-2 border-yellow-100 dark:border-yellow-900/30 bg-yellow-50 dark:bg-yellow-950/20">
               <CardHeader>
-                <CardTitle className="text-lg text-gray-800">💡 Motivational Note</CardTitle>
+                <CardTitle className="text-lg text-gray-800 dark:text-pink-100">💡 Motivational Note</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{motivationalNote}</p>
+                <p className="dark:text-slate-300">{motivationalNote}</p>
               </CardContent>
             </Card>
           )}
